@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="lg:flex min-h-screen">
+        <!-- <aside class="grow-0 bg-neutral-900 text-white pl-8 pr-8 pb-12 sm:pl-8 sm:pr-8 sm:pb-12 lg:pb-16 relative grid" [ngStyle]="modal ? { 'pointer-events': 'none' } : {}"> -->
+            <h2 class="mt-24 md:mt-12 font-semibold text-3xl leading-none">AIM EDGE APPS</h2>
+            <nav class="mt-12 md:mt-10 lg:mt-0">
+                <ul class="flex flex-wrap lg:grid gap-3">
+                    <li class="flex items-center text-white bg-neutral-800 rounded">
+                        <button class="w-full capitalize flex items-center text-lg py-2 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Invoices
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <button class="uppercase font-semibold text-gray-600 hover:text-gray-400 self-end text-right lg:text-left mt-10 lg:mt-0" (click)="Logout()">log out</button>
+        <!-- </aside> -->
+        <main class="flex-grow bg-gray-100">
+            <header class="bg-white">
+                <div class="py-10 container mx-auto flex justify-between md:px-20">
+                    <h3 class="text-2xl font-bold">Invoices</h3>
+                    <span class="text-xl">{{user_name }}</span>
+                </div>
+            </header>
+    
+            <ng-container *ngIf="rol_user === '1'; else otherContent">
+                <div>
+                    <button type="submit" class="w-full py-2 mb-8 text-md font-semibold rounded text-center text-white bg-slate-950 hover:bg-slate-300 focus:outline-none" (click)="openModal()">New invoice</button>
+                </div>
+            </ng-container>
+            <ng-template #otherContent>
+                <div></div>
+            </ng-template>
+    
+            <div class="">
+                <div class="mx-auto my-24 min-w-fit max-w-screen-md shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded">
+                    <table class="min-w-fit table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-500 tracking-wider"># Invoice</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Date</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Subtotal</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Discount</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Total</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Vsucher</th>
+                                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">Products</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            <tr *ngFor="let factura of invoice_list">
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                                    <div class="flex items-center">
+                                        <div class="text-sm leading-5 text-gray-800">{{ factura.id_invoice }}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                                    <div class="text-sm leading-5 text-gray-900">{{ factura.date }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b text-gray-900 border-gray-500 text-sm leading-5">$ {{ factura.subtotal }}</td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b text-gray-900 border-gray-500 text-sm leading-5">{{ factura.discount }}%</td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b text-gray-900 border-gray-500 text-sm leading-5">
+                                    <div class="flex items-center">
+                                        <div class="text-sm leading-5 text-gray-800">$ {{ factura.total }}</div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-gray-900 text-sm leading-5">
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
+                        <nav class="relative z-0 inline-flex shadow-sm mx-auto mb-5">
+                            <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" aria-label="Previous">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div>
+                                <button class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 focus:z-10 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
+                                    1
+                                </button>
+                                <button class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-600 focus:z-10 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
+                                    2
+                                </button>
+                                <button class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-600 focus:z-10 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary">
+                                    3
+                                </button>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+   
+    <div *ngIf="modalNewInvoice" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-white w-1/2 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+          <button (click)="closeModal()" class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+            <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </button>
+          <div class="modal-content py-4 px-6">
+            <p class="text-2xl font-bold pb-3">Add New invoice</p>
+            <form class="flex flex-col space-y-5 mx-5"[formGroup]="form_invoice">
+              <div>
+                <p class="text-lg font-medium">User details</p>
+                <div class="grid grid-cols-3 gap-4 mt-5">
+                  <div class="col-span-1">
+                    <label for="date" class="block mb-2 font-medium">Date</label>
+                    <input type="date" id="date" placeholder="dd/mm/yy" class="block w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition duration-300"
+                    formControlName="date" name="date" required />
+                  </div>
+                  <div class="col-span-1">
+                    <label for="client" class="block mb-2 font-medium">Client</label>
+                    <select id="client" placeholder="Name" class="block w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition duration-300"
+                    formControlName="id_client" name="client" required>
+                      <option *ngFor="let cliente of clients_list" [value]="cliente.id_user">{{ cliente.client_name }}</option>
+                    </select>
+                  </div>
+                  <div class="col-span-1 row-span-2">
+                    <label for="image" class="block mb-2 font-medium">Image</label>
+                    <div class="h-64 border border-dashed border-gray-400 flex justify-center items-center">
+                      <span class="text-gray-500">Add Image</span>
+                    </div>
+                  </div>
+                  <div class="col-span-1 pb-10">
+                    <label for="discount" class="block mb-2 font-medium">Discount</label>
+                    <input id="discount" class="block w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition duration-300 mr-2"
+                    formControlName="discount" name="discount" required />
+                  </div>
+                  <div class="col-span-1 pb-10">
+                    <label for="product" class="block mb-2 font-medium">Product</label>
+                    <div class="flex items-center">
+                      <select [(ngModel)]="selectedOption" id="product" #selectRef class="block w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500 transition duration-300 mr-2"
+                      formControlName="id_product" name="product" required>
+                        <option *ngFor="let producto of products_all" [value]="producto.id_product">{{ producto.product_name }}</option>
+                      </select>
+                      <div class="flex items-center">
+                        <input type="number" id="quantity" min="1" max="20" class="w-12 py-2 px-3 border border-gray-300 rounded-l focus:outline-none focus:border-indigo-500 transition duration-300 mr-2 text-sm"
+                        formControlName="quantity" name="quantity" required />
+                        <button id="quantity-increment" class="w-10 py-2 px-3 bg-blue-500 text-white rounded" (click)="add_product($event, form_invoice.value)">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3">
+                  <div class="col-span-2">
+                    <table class="mt-5 border-collapse w-full">
+                      <thead>
+                        <tr>
+                          <th class="border border-gray-400 px-4 py-2">Product ID</th>
+                          <th class="border border-gray-400 px-4 py-2">Product Name</th>
+                          <th class="border border-gray-400 px-4 py-2">Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of products_list; let i = index">
+                          <td class="border border-gray-400 px-4 py-2">{{ row.id_product }}</td>
+                          <td class="border border-gray-400 px-4 py-2">{{ row.selectedText }}</td>
+                          <td class="border border-gray-400 px-4 py-2">{{ row.quantity }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button
+                    type="submit"
+                    className="w-full py-2 mb-8 text-md font-semibold rounded text-center text-white bg-slate-950 hover:bg-slate-300 focus:outline-none">
+                    New invoice
+                </button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+
+    
+</body>
+</html>
